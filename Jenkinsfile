@@ -5,14 +5,16 @@ pipeline {
         stage('Setup') {
             steps {
                 sh '''
-                pip3 install -r sam-app/hello_world/requirements.txt
+                python3 -m venv .venv
+                .venv/bin/pip install --upgrade pip
+                .venv/bin/pip install -r sam-app/hello_world/requirements.txt
                 '''
             }
         }
 
         stage('Test') {
             steps {
-                sh "pytest"
+                sh ".venv/bin/python -m pytest"
             }
         }
 
