@@ -19,9 +19,9 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Unit Test') {
             steps {
-                sh ".venv/bin/python -m pytest"
+                sh ".venv/bin/python -m pytest sam-app/tests/unit"
             }
         }
 
@@ -32,14 +32,17 @@ pipeline {
         }
 
         stage('Deploy') {
-            environment {
-                AWS_DEFAULT_REGION = 'eu-north-1'
-                AWS_ACCESS_KEY_ID = credentials('aws-access-key')
-                AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-            }
 
             steps {
                 sh "sam deploy -t sam-app/template.yaml --no-confirm-changeset --no-fail-on-empty-changeset"
+            }
+        }
+
+        stage('Integration Test') {
+            steps {
+                sh '''
+                    .venv/bin/python -m pytest sam-app/tests/integration
+                '''
             }
         }
     }
