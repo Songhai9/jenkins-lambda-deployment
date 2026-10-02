@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         AWS_DEFAULT_REGION = 'eu-north-1'
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key')
+        AWS_ACCESS_KEY_ID = credentials('aws-acces-key')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
         AWS_SAM_STACK_NAME = 'jenkins-lambda-deployment'
     }
